@@ -1,4 +1,4 @@
-import GiftRedemptionService from '../src/GiftRedemptionService';
+import { GiftRedemptionService } from '../src/GiftRedemptionService';
 import * as FileReaderServiceModule from '../src/FileReaderService';
 import * as RedemptionServiceModule from '../src/RedemptionService';
 
