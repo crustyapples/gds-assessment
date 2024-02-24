@@ -2,7 +2,7 @@
 import { FileReaderService } from "./FileReaderService";
 import { RedemptionService } from "./RedemptionService";
 
-class GiftRedemptionService {
+export class GiftRedemptionService {
   private staffMappings: Map<string, string> = new Map();
 
   private fileReaderService: FileReaderService;

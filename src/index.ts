@@ -1,21 +1,33 @@
-import { FileReaderService } from "./FileReaderService"; // Adjust the import path as necessary
-import { RedemptionService } from "./RedemptionService"; // Adjust the import path as necessary
-import GiftRedemptionService from "./GiftRedemptionService"; // Adjust the import path as necessary
+// Import the services
+import { FileReaderService } from './FileReaderService';
+import { RedemptionService } from './RedemptionService';
+import GiftRedemptionService from './GiftRedemptionService';
 
-async function main() {
-    // Initialize the required services
-    const fileReaderService = new FileReaderService();
-    const redemptionService = new RedemptionService();
+// Create instances of the services
+const fileReaderService = new FileReaderService();
+const redemptionService = new RedemptionService();
 
-    // Create an instance of GiftRedemptionService
+async function runScenarios() {
+    // Create the GiftRedemptionService instance
     const giftRedemptionService = await GiftRedemptionService.createInstance(fileReaderService, redemptionService);
 
-    // Example staff pass ID to redeem a gift for
-    const staffPassId = "STAFF_H123804820G"; // Replace with an actual ID from your CSV
+    // Scenario 1: Attempt to redeem a gift with a valid staff pass ID (first attempt)
+    console.log(`Attempting to redeem a gift for staff pass ID: ${'STAFF_H123804820G'}`);
+    let message = await giftRedemptionService.redeemGift('STAFF_H123804820G');
+    console.log(message);
 
-    // Attempt to redeem a gift
-    const redemptionMessage = await giftRedemptionService.redeemGift(staffPassId);
-    console.log(redemptionMessage);
+    // Scenario 2: Attempt to redeem a gift with a valid staff pass ID (second attempt by the same team)
+    console.log(`Attempting to redeem a gift for staff pass ID: ${'MANAGER_T999888420B'}`);
+    message = await giftRedemptionService.redeemGift('MANAGER_T999888420B');
+    console.log(message); // Should be successful on first attempt
+    console.log(`Attempting to redeem a gift again for staff pass ID: ${'MANAGER_T999888420B'}`);
+    message = await giftRedemptionService.redeemGift('MANAGER_T999888420B');
+    console.log(message); // Should indicate already redeemed on second attempt
+
+    // Scenario 3: Attempt to redeem a gift with an invalid staff pass ID
+    console.log(`Attempting to redeem a gift for an invalid staff pass ID: ${'INVALID_STAFF_ID'}`);
+    message = await giftRedemptionService.redeemGift('INVALID_STAFF_ID');
+    console.log(message);
 }
 
-main().catch(console.error);
+runScenarios().catch(console.error);

@@ -21,4 +21,9 @@ describe('RedemptionService', () => {
     expect(redemptionService.addRedemptionRecord(teamName)).toBe(true);
     expect(redemptionService.addRedemptionRecord(teamName)).toBe(false);
   });
+
+  test('does not allow redemption for a non-existent team', async () => {
+    const nonExistentTeamName = 'Non-Existent Team';
+    expect(redemptionService.hasRedeemed(nonExistentTeamName)).toBe(false);
+  });
 });
