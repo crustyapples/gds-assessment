@@ -1,5 +1,4 @@
-import { RedemptionRecord } from './models/RedemptionRecord';
-import { Team } from './models/Team';
+import { RedemptionRecord } from "./models/RedemptionRecord";
 
 export class RedemptionService {
   private redemptionRecords = new Map<string, RedemptionRecord>();
