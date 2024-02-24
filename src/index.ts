@@ -1,33 +1,33 @@
-// index.ts
-
+// Import the services
+import { FileReaderService } from './FileReaderService';
+import { RedemptionService } from './RedemptionService';
 import GiftRedemptionService from './GiftRedemptionService';
 
-async function testRedemptionFlow() {
-  const giftRedemptionService = await GiftRedemptionService.createInstance();
+// Create instances of the services
+const fileReaderService = new FileReaderService();
+const redemptionService = new RedemptionService();
 
-  // List of staff pass IDs to test - adjust these based on your CSV data
-  const staffPassIds = [
-    "STAFF_H123804820G", // Assume valid
-    "MANAGER_T999888420B", // Assume valid, different team
-    "STAFF_H123804820G", // Duplicate, should fail on second attempt
-    "INVALID_ID" // Invalid, should not find a mapping
-  ];
+async function runScenarios() {
+    // Create the GiftRedemptionService instance
+    const giftRedemptionService = await GiftRedemptionService.createInstance(fileReaderService, redemptionService);
 
-  // Run through each test case
-  for (const staffPassId of staffPassIds) {
-    console.log(`Attempting to redeem gift for staff pass ID: ${staffPassId}`);
-    try {
-      const result = await giftRedemptionService.redeemGift(staffPassId);
-      console.log(result);
-    } catch (error) {
-      console.error(`Error redeeming gift for ${staffPassId}:`, error);
-    }
-    console.log('---'); // Separator for readability
-  }
+    // Scenario 1: Attempt to redeem a gift with a valid staff pass ID (first attempt)
+    console.log(`Attempting to redeem a gift for staff pass ID: ${'STAFF_H123804820G'}`);
+    let message = await giftRedemptionService.redeemGift('STAFF_H123804820G');
+    console.log(message);
+
+    // Scenario 2: Attempt to redeem a gift with a valid staff pass ID (second attempt by the same team)
+    console.log(`Attempting to redeem a gift for staff pass ID: ${'MANAGER_T999888420B'}`);
+    message = await giftRedemptionService.redeemGift('MANAGER_T999888420B');
+    console.log(message); // Should be successful on first attempt
+    console.log(`Attempting to redeem a gift again for staff pass ID: ${'MANAGER_T999888420B'}`);
+    message = await giftRedemptionService.redeemGift('MANAGER_T999888420B');
+    console.log(message); // Should indicate already redeemed on second attempt
+
+    // Scenario 3: Attempt to redeem a gift with an invalid staff pass ID
+    console.log(`Attempting to redeem a gift for an invalid staff pass ID: ${'INVALID_STAFF_ID'}`);
+    message = await giftRedemptionService.redeemGift('INVALID_STAFF_ID');
+    console.log(message);
 }
 
-testRedemptionFlow().then(() => {
-  console.log('Finished testing redemption flow.');
-}).catch((error) => {
-  console.error('An error occurred during the redemption flow test:', error);
-});
+runScenarios().catch(console.error);

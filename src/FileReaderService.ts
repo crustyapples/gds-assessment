@@ -1,14 +1,10 @@
-import * as fs from 'fs';
+// FileReaderService.ts
+import { IFileReaderService } from './IFileReaderService';
+import { StaffMapping } from './StaffMapping';
 import { parse } from 'csv-parse';
-import { Parser } from 'csv-parse';
+import * as fs from 'fs';
 
-interface StaffMapping {
-  staff_pass_id: string;
-  team_name: string;
-  created_at: string;
-}
-
-class FileReaderService {
+export class FileReaderService implements IFileReaderService {
   async readStaffMapping(filePath: string): Promise<StaffMapping[]> {
     return new Promise((resolve, reject) => {
       const results: StaffMapping[] = [];
@@ -31,8 +27,7 @@ class FileReaderService {
       });
 
       parser.on('error', reject);
+
     });
   }
 }
-
-export const fileReaderService = new FileReaderService();
