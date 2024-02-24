@@ -1,7 +1,7 @@
 // Import the services
 import { FileReaderService } from './FileReaderService';
 import { RedemptionService } from './RedemptionService';
-import GiftRedemptionService from './GiftRedemptionService';
+import { GiftRedemptionService } from './GiftRedemptionService';
 
 // Create instances of the services
 const fileReaderService = new FileReaderService();

@@ -1,25 +1,20 @@
-// RedemptionService.ts
+import { RedemptionRecord } from './models/RedemptionRecord';
+import { Team } from './models/Team';
 
-export interface RedemptionRecord {
-    team_name: string;
-    redeemed_at: number;
-  }
-  
-  export class RedemptionService {
-    private redemptionRecords: Map<string, RedemptionRecord> = new Map();
-  
-    public addRedemptionRecord(teamName: string): boolean {
-      if (this.redemptionRecords.has(teamName)) {
-        return false; // Team has already redeemed their gift.
-      }
-  
-      const redeemedAt = Date.now(); // Current timestamp in milliseconds.
-      this.redemptionRecords.set(teamName, { team_name: teamName, redeemed_at: redeemedAt });
-      return true;
+export class RedemptionService {
+  private redemptionRecords = new Map<string, RedemptionRecord>();
+
+  public addRedemptionRecord(record: RedemptionRecord): boolean {
+    const { teamName, redeemedAt } = record;
+    if (this.redemptionRecords.has(teamName)) {
+      return false; // Team has already redeemed their gift.
     }
-  
-    public hasRedeemed(teamName: string): boolean {
-      return this.redemptionRecords.has(teamName);
-    }
+
+    this.redemptionRecords.set(teamName, { teamName, redeemedAt });
+    return true;
   }
-  
+
+  public hasRedeemed(teamName: string): boolean {
+    return this.redemptionRecords.has(teamName);
+  }
+}
