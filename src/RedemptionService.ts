@@ -1,13 +1,14 @@
 // RedemptionService.ts
-interface RedemptionRecord {
+
+export interface RedemptionRecord {
     team_name: string;
     redeemed_at: number;
   }
   
-  class RedemptionService {
+  export class RedemptionService {
     private redemptionRecords: Map<string, RedemptionRecord> = new Map();
   
-    addRedemptionRecord(teamName: string): boolean {
+    public addRedemptionRecord(teamName: string): boolean {
       if (this.redemptionRecords.has(teamName)) {
         return false; // Team has already redeemed their gift.
       }
@@ -17,9 +18,8 @@ interface RedemptionRecord {
       return true;
     }
   
-    hasRedeemed(teamName: string): boolean {
+    public hasRedeemed(teamName: string): boolean {
       return this.redemptionRecords.has(teamName);
     }
   }
   
-  export const redemptionService = new RedemptionService();

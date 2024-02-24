@@ -1,33 +1,21 @@
-// index.ts
+import { FileReaderService } from "./FileReaderService"; // Adjust the import path as necessary
+import { RedemptionService } from "./RedemptionService"; // Adjust the import path as necessary
+import GiftRedemptionService from "./GiftRedemptionService"; // Adjust the import path as necessary
 
-import GiftRedemptionService from './GiftRedemptionService';
+async function main() {
+    // Initialize the required services
+    const fileReaderService = new FileReaderService();
+    const redemptionService = new RedemptionService();
 
-async function testRedemptionFlow() {
-  const giftRedemptionService = await GiftRedemptionService.createInstance();
+    // Create an instance of GiftRedemptionService
+    const giftRedemptionService = await GiftRedemptionService.createInstance(fileReaderService, redemptionService);
 
-  // List of staff pass IDs to test - adjust these based on your CSV data
-  const staffPassIds = [
-    "STAFF_H123804820G", // Assume valid
-    "MANAGER_T999888420B", // Assume valid, different team
-    "STAFF_H123804820G", // Duplicate, should fail on second attempt
-    "INVALID_ID" // Invalid, should not find a mapping
-  ];
+    // Example staff pass ID to redeem a gift for
+    const staffPassId = "STAFF_H123804820G"; // Replace with an actual ID from your CSV
 
-  // Run through each test case
-  for (const staffPassId of staffPassIds) {
-    console.log(`Attempting to redeem gift for staff pass ID: ${staffPassId}`);
-    try {
-      const result = await giftRedemptionService.redeemGift(staffPassId);
-      console.log(result);
-    } catch (error) {
-      console.error(`Error redeeming gift for ${staffPassId}:`, error);
-    }
-    console.log('---'); // Separator for readability
-  }
+    // Attempt to redeem a gift
+    const redemptionMessage = await giftRedemptionService.redeemGift(staffPassId);
+    console.log(redemptionMessage);
 }
 
-testRedemptionFlow().then(() => {
-  console.log('Finished testing redemption flow.');
-}).catch((error) => {
-  console.error('An error occurred during the redemption flow test:', error);
-});
+main().catch(console.error);
