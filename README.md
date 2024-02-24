@@ -42,3 +42,17 @@ To run the unit tests, use the following command:
 ```bash
 npm test
 ```
+
+| Test Type       | Test                                                                                        | Description                                                                                     | File                            |
+|-----------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|---------------------------------|
+| Unit Test       | `should allow a team to redeem a gift if they have not already done so`                      | Verifies that the `addRedemptionRecord` method allows a team to redeem a gift if they have not already done so. | RedemptionService.test.ts     |
+| Unit Test       | `should not allow a team to redeem a gift more than once`                                    | Verifies that the `addRedemptionRecord` method does not allow a team to redeem a gift more than once. | RedemptionService.test.ts     |
+| Unit Test       | `does not allow redemption for a non-existent team`                                          | Verifies that the `hasRedeemed` method does not allow redemption for a non-existent team.      | RedemptionService.test.ts     |
+
+
+| Test Type        | Test                                                                                        | Description                                                                                                                                      | File                            |
+|------------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|
+| Integration Test | `rejects redemption for an invalid staff pass ID`                                           | Verifies that the `redeemGift` method correctly interacts with the `FileReaderService` to reject redemption for an invalid staff pass ID.         | GiftRedemptionService.test.ts |
+| Integration Test | `does not allow redeeming a gift for a team that has already redeemed`                      | Verifies that the `redeemGift` method properly integrates with the `RedemptionService` to prevent redeeming a gift for a team that has already done so. | GiftRedemptionService.test.ts |
+| Integration Test | `allows redemption for a valid staff pass ID and a team that has not redeemed`              | Verifies that the `redeemGift` method effectively interacts with both the `FileReaderService` and `RedemptionService` to allow redemption for a valid staff pass ID and a team that has not redeemed. | GiftRedemptionService.test.ts |
+
