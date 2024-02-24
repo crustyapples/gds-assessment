@@ -17,7 +17,7 @@ export class FileReaderService implements IFileReaderService {
 
       parser.on('readable', function() {
         let record;
-        while (record = parser.read()) { // Use 'parser' directly instead of 'this'
+        while (record = parser.read()) { 
           results.push(record);
         }
       });

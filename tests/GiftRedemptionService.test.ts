@@ -12,7 +12,7 @@ jest.mock('../src/FileReaderService', () => ({
 
 jest.mock('../src/RedemptionService', () => ({
   RedemptionService: jest.fn().mockImplementation(() => ({
-    hasRedeemed: jest.fn(), // We'll set specific behavior in each test
+    hasRedeemed: jest.fn(),
     addRedemptionRecord: jest.fn().mockReturnValue(true),
   }))
 }));
@@ -27,7 +27,6 @@ describe('GiftRedemptionService', () => {
       fileReaderService = new FileReaderServiceModule.FileReaderService();
       redemptionService = new RedemptionServiceModule.RedemptionService();
   
-      // Casting to jest.Mock to use Jest mock functions like mockReturnValueOnce
       (redemptionService.hasRedeemed as jest.Mock).mockReturnValue(false); // Default behavior
   
       giftRedemptionService = new GiftRedemptionService(fileReaderService, redemptionService);
@@ -45,7 +44,6 @@ describe('GiftRedemptionService', () => {
     });
   
     test('allows redemption for a valid staff pass ID and a team that has not redeemed', async () => {
-      // Assuming 'Team X' has not redeemed yet (default mock behavior set in beforeEach)
       const response = await giftRedemptionService.redeemGift('VALID_STAFF_ID');
       expect(response).toBe('Gift redeemed successfully!');
       expect(redemptionService.addRedemptionRecord).toHaveBeenCalled();

@@ -43,9 +43,9 @@ export class GiftRedemptionService {
     } else {
       const redemptionRecord: RedemptionRecord = {
         teamName: teamName,
-        redeemedAt: new Date() // Assign a Date object
+        redeemedAt: new Date()
       };
-      this.redemptionService.addRedemptionRecord(redemptionRecord); // Pass RedemptionRecord
+      this.redemptionService.addRedemptionRecord(redemptionRecord);
       return "Gift redeemed successfully!";
     }
   }
